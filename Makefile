@@ -12,3 +12,6 @@ buildImage:
 
 run:
 	docker run --rm -p $(JWT_PORT):$(JWT_PORT) -e JWT_PORT=$(JWT_PORT) -e JWT_KEY=$(JWT_KEY) -e JWT_DURATION=$(JWT_DURATION) -e JWT_ISSUER=$(JWT_ISSUER) $(APP_NAME)
+
+test:
+	go test -v ./...

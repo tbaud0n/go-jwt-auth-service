@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tbaud0n/go-jwt-auth-service.svg?branch=master)](https://travis-ci.org/tbaud0n/go-jwt-auth-service)
+
 # go-jwt-auth-service
 
 Simple JWT service to generate/validate JWT tokens

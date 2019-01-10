@@ -2,4 +2,6 @@ language: go
   go:
     - "1.11.4"
 
-script: go test -v ./...
+script: 
+  - go test -v ./...
+  - make build
