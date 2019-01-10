@@ -17,9 +17,14 @@ type TokenNewHandler struct {
 func (h TokenNewHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var data map[string]interface{}
 
+	if r.Body == nil {
+		http.Error(w, "Request body is empty", http.StatusUnprocessableEntity)
+		return
+	}
+
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&data); err != nil {
-		log.Error(data)
+		log.Error(err)
 		http.Error(w, "Internal error", http.StatusInternalServerError)
 		return
 	}
@@ -55,7 +60,7 @@ func (h TokenCheckHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	u, err := h.JWTService.ValidateToken(tokenString)
 	if err != nil {
 		log.Error(err)
-		http.Error(w, "Internal error", http.StatusInternalServerError)
+		http.Error(w, "Internal error", http.StatusUnauthorized)
 		return
 	}
 
@@ -82,13 +87,10 @@ func (h TokenDecodeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	u, err := h.JWTService.ValidateToken(tokenString)
-	if err != nil {
-		log.Error(err)
-		http.Error(w, "Internal error", http.StatusInternalServerError)
-		return
-	}
-
-	if u == nil {
+	if u == nil || err != nil {
+		if err != nil {
+			log.Error(err)
+		}
 		http.Error(w, "Invalid token", http.StatusUnauthorized)
 		return
 	}
