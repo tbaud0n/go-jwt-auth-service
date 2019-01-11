@@ -4,6 +4,6 @@ go:
 env:
   - GO111MODULE=on
 before_install:
-  - GO111MODULE=off go get github.com/mattn/goveralls
+  - go get github.com/mattn/goveralls
 script:
   - $GOPATH/bin/goveralls -service=travis-pro
